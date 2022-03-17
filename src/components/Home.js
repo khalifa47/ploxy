@@ -14,7 +14,7 @@ const Home = () => {
             console.log(request.data);
             return request;
         }
-        fetchData();
+        lat !== null && lon !== null && fetchData();
     }, [lat, lon]);
 
     return (
