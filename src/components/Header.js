@@ -53,7 +53,10 @@ const Header = () => {
     };
 
     return (
-        <AppBar position="sticky" color='success' enableColorOnDark>
+        <AppBar position="sticky" enableColorOnDark sx={{
+            background: 'linear-gradient(rgba(230, 62, 0, 0.8), rgba(11, 11, 11, 0.1))',
+            boxShadow: 0
+        }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -145,7 +148,7 @@ const Header = () => {
                         >
                             {settings.map((setting) => (
                                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                                    <ListItemIcon>
+                                    <ListItemIcon sx={{ color: 'rgb(230, 62, 0)' }}>
                                         {setting.icon}
                                     </ListItemIcon>
                                     <ListItemText>
