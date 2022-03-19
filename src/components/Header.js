@@ -16,23 +16,27 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { ListItemIcon, ListItemText } from '@mui/material';
 
-const Header = () => {
-    const pages = ['Products', 'Pricing', 'Blog'];
+import { useEffect } from "react";
+import requests from "../requests/weather/requests";
+import axios from "../requests/weather/axios";
+import { selectLatitude, selectLongitude } from "../features/location/locationSlice";
+import { useSelector } from "react-redux";
 
-    const settings = [
-        {
-            name: 'Profile',
-            icon: <FaceIcon />
-        },
-        {
-            name: 'Account',
-            icon: <AccountCircleIcon />
-        },
-        {
-            name: 'Logout',
-            icon: <LogoutIcon />
-        },
-    ];
+const Header = () => {
+    const lat = useSelector(selectLatitude);
+    const lon = useSelector(selectLongitude);
+    const [weatherIcon, setWeatherIcon] = useState(null);
+    const [weatherCondition, setWeatherCondition] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const request = await axios.get(requests.fetchCurrent(lat, lon));
+            setWeatherIcon(request.data.weather[0].icon);
+            setWeatherCondition(request.data.weather[0].main);
+            return request;
+        }
+        lat !== null && lon !== null && fetchData();
+    }, [lat, lon]);
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -52,11 +56,32 @@ const Header = () => {
         setAnchorElUser(null);
     };
 
+    const pages = ['Products', 'Pricing', 'Blog'];
+
+    const settings = [
+        {
+            name: 'Profile',
+            icon: <FaceIcon />
+        },
+        {
+            name: 'Account',
+            icon: <AccountCircleIcon />
+        },
+        {
+            name: 'Logout',
+            icon: <LogoutIcon />
+        },
+    ];
+
     return (
-        <AppBar position="sticky" enableColorOnDark sx={{
-            background: 'linear-gradient(rgba(230, 62, 0, 0.8), rgba(11, 11, 11, 0.1))',
-            boxShadow: 0
-        }}>
+        <AppBar
+            position="sticky"
+            enableColorOnDark
+            sx={{
+                background: 'linear-gradient(rgba(230, 62, 0, 0.8), rgba(11, 11, 11, 0.1))',
+                boxShadow: 0
+            }}
+        >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -122,6 +147,11 @@ const Header = () => {
                                 {page}
                             </Button>
                         ))}
+                    </Box>
+
+                    <Box sx={{ mr: 2, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                        <img src={`https://openweathermap.org/img/wn/${weatherIcon}.png`} alt="weathericon" />
+                        <Typography>{weatherCondition}</Typography>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
