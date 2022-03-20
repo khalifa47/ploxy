@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 import Header from "./Header";
+import News from "./News";
 import SideDrawer from "./SideDrawer";
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
         <Box sx={{ display: 'flex' }}>
             <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
             <SideDrawer drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
+            <News />
         </Box>
     );
 }

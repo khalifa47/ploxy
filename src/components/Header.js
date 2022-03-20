@@ -71,7 +71,7 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
             enableColorOnDark
             sx={{
                 width: { md: `calc(100% - ${drawerWidth}px)` },
-                position: 'relative',
+                position: 'fixed',
                 left: { md: `${drawerWidth}px` },
                 background: 'rgba(230, 62, 0, 1)',
                 maxHeight: '65px',
