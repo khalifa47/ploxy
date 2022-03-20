@@ -22,7 +22,7 @@ import axios from "../requests/weather/axios";
 import { selectLatitude, selectLongitude } from "../features/location/locationSlice";
 import { useSelector } from "react-redux";
 
-const Header = () => {
+const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const lat = useSelector(selectLatitude);
     const lon = useSelector(selectLongitude);
     const [weatherIcon, setWeatherIcon] = useState(null);
@@ -38,18 +38,10 @@ const Header = () => {
         lat !== null && lon !== null && fetchData();
     }, [lat, lon]);
 
-    const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
@@ -78,56 +70,28 @@ const Header = () => {
             position="sticky"
             enableColorOnDark
             sx={{
-                background: 'linear-gradient(rgba(230, 62, 0, 0.8), rgba(11, 11, 11, 0.1))',
+                width: { md: `calc(100% - ${drawerWidth}px)` },
+                position: 'relative',
+                left: { md: `${drawerWidth}px` },
+                background: 'rgba(230, 62, 0, 1)',
+                maxHeight: '65px',
+                borderLeft: 'none',
                 boxShadow: 0
             }}
         >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        LOGO
-                    </Typography>
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
+                            onClick={handleDrawerToggle}
                             color="inherit"
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
                     </Box>
                     <Typography
                         variant="h6"
@@ -141,7 +105,6 @@ const Header = () => {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}

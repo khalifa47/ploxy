@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Header from "./components/Header";
 import Home from "./components/Home";
 import { setLocation } from "./features/location/locationSlice";
 
@@ -38,7 +37,6 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
       <Home />
     </div>
   );
