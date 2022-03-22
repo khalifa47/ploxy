@@ -1,23 +1,24 @@
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
-import MyLocationIcon from '@mui/icons-material/MyLocation';
+import { Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import LanguageIcon from '@mui/icons-material/Language';
 import SportsIcon from '@mui/icons-material/Sports';
 import DevicesIcon from '@mui/icons-material/Devices';
-import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import BiotechIcon from '@mui/icons-material/Biotech';
+import { useDispatch } from "react-redux";
+import { setNews } from "../features/news/newsSlice";
 
 const SideDrawer = ({ drawerWidth, handleDrawerToggle, mobileOpen }) => {
+    const dispatch = useDispatch();
+
     const categories = [
         {
-            name: 'Local',
-            icon: <MyLocationIcon />
-        },
-        {
-            name: 'World',
+            name: 'General',
             icon: <LanguageIcon />
         },
         {
-            name: 'Sport',
+            name: 'Sports',
             icon: <SportsIcon />
         },
         {
@@ -25,14 +26,26 @@ const SideDrawer = ({ drawerWidth, handleDrawerToggle, mobileOpen }) => {
             icon: <DevicesIcon />
         },
         {
-            name: 'Travel',
-            icon: <AirplaneTicketIcon />
+            name: 'Entertainment',
+            icon: <TheaterComedyIcon />
+        },
+        {
+            name: 'Health',
+            icon: <LocalHospitalIcon />
+        },
+        {
+            name: 'Science',
+            icon: <BiotechIcon />
         },
         {
             name: 'Business',
             icon: <AttachMoneyIcon />
         }
     ];
+
+    const handleChangeCategory = (cat) => {
+        dispatch(setNews(cat));
+    }
 
     const drawer = (
         <div>
@@ -49,12 +62,12 @@ const SideDrawer = ({ drawerWidth, handleDrawerToggle, mobileOpen }) => {
             <Box sx={{ overflow: 'auto' }}>
                 <List>
                     {categories.map(category => (
-                        <ListItem button key={category.name}>
+                        <ListItemButton onClick={() => handleChangeCategory(category.name)} key={category.name}>
                             <ListItemIcon>
                                 {category.icon}
                             </ListItemIcon>
                             <ListItemText primary={category.name} />
-                        </ListItem>
+                        </ListItemButton>
                     ))}
                 </List>
             </Box>

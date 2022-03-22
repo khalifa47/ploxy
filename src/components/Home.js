@@ -3,10 +3,13 @@ import { useState } from "react";
 import Header from "./Header";
 import News from "./News";
 import SideDrawer from "./SideDrawer";
-import requests from "../requests/news/requests";
+import { selectCategory } from "../features/news/newsSlice";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-    const drawerWidth = 180;
+    const category = useSelector(selectCategory);
+
+    const drawerWidth = 190;
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -18,7 +21,7 @@ const Home = () => {
         <Box sx={{ display: 'flex' }}>
             <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
             <SideDrawer drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
-            <News fetchUrl={requests.fetchTopHeadlines()} />
+            <News category={category} />
         </Box>
     );
 }
