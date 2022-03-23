@@ -22,7 +22,6 @@ const News = ({ category }) => {
             <Toolbar />
             <Typography variant="h5">{category} News</Typography>
             <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={2} sx={{ m: '0 auto' }}>
-                {/* str.substr(0, str.lastIndexOf("-") - 1) */}
                 {news?.map(newsItem => (
                     <NewsItem
                         key={newsItem.title}
@@ -30,7 +29,7 @@ const News = ({ category }) => {
                         source={newsItem.source.name}
                         time={newsItem.publishedAt}
                         headline={newsItem.title.substr(0, newsItem.title.lastIndexOf("-") - 1)}
-                        description={newsItem.description}
+                        // description={newsItem.description}
                         target={newsItem.url}
                     />
                 ))}
