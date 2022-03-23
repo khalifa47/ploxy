@@ -93,14 +93,17 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                             <MenuIcon />
                         </IconButton>
                     </Box>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-                    >
-                        LOGO
-                    </Typography>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: "flex-start", flexGrow: 1 }}>
+                        <Box
+                            component="img"
+                            src="logo.png"
+                            alt="logo"
+                            sx={{
+                                height: "60px",
+                                objectFit: "contain"
+                            }}
+                        />
+                    </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button

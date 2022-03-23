@@ -1,4 +1,4 @@
-import { Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
+import { Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
 import LanguageIcon from '@mui/icons-material/Language';
 import SportsIcon from '@mui/icons-material/Sports';
 import DevicesIcon from '@mui/icons-material/Devices';
@@ -50,14 +50,17 @@ const SideDrawer = ({ drawerWidth, handleDrawerToggle, mobileOpen }) => {
     const drawer = (
         <div>
             <Toolbar sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="div"
-                    sx={{ display: { xs: 'none', md: 'flex' } }}
-                >
-                    LOGO
-                </Typography>
+                <Box
+                    component="img"
+                    src="logo.png"
+                    alt="logo"
+                    sx={{
+                        display: { xs: 'none', md: 'flex' },
+                        p: 3,
+                        pb: 1,
+                        width: "100px"
+                    }}
+                />
             </Toolbar>
             <Box sx={{ overflow: 'auto' }}>
                 <List>

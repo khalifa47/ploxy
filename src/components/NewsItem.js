@@ -1,8 +1,11 @@
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
-const NewsItem = ({ image, source, time, headline, description, target }) => {
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+
+const NewsItem = ({ image, source, time, headline, target }) => {
     const [shownTime, setShownTime] = useState("");
 
     useEffect(() => {
@@ -43,13 +46,18 @@ const NewsItem = ({ image, source, time, headline, description, target }) => {
                     <Typography variant='subtitle1' sx={{ fontWeight: 600, lineHeight: 1.3, pb: 1 }}>
                         {headline}
                     </Typography>
-                    <Typography variant='body2'>
+                    {/* <Typography variant='body2'>
                         {description}
-                    </Typography>
+                    </Typography> */}
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-
+            <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
+                <IconButton size="small" sx={{ color: "white" }}>
+                    <FavoriteIcon />
+                </IconButton>
+                <IconButton size="small" sx={{ color: "white" }}>
+                    <ShareIcon />
+                </IconButton>
             </CardActions>
         </Card>
     );
