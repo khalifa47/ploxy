@@ -55,7 +55,7 @@ const SideDrawer = ({ drawerWidth, handleDrawerToggle, mobileOpen }) => {
                     src="logo.png"
                     alt="logo"
                     sx={{
-                        display: { xs: 'none', md: 'flex' },
+                        display: 'flex',
                         m: 3,
                         mb: 1,
                         width: "100px",

@@ -10,7 +10,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
@@ -21,6 +20,7 @@ import requests from "../requests/weather/requests";
 import axios from "../requests/weather/axios";
 import { selectLatitude, selectLongitude } from "../features/location/locationSlice";
 import { useSelector } from "react-redux";
+import SearchBar from './SearchBar';
 
 const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const lat = useSelector(selectLatitude);
@@ -47,8 +47,6 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
-    const pages = ['Products', 'Pricing', 'Blog'];
 
     const settings = [
         {
@@ -93,27 +91,9 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                             <MenuIcon />
                         </IconButton>
                     </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: "flex-start", flexGrow: 1 }}>
-                        <Box
-                            component="img"
-                            src="logo.png"
-                            alt="logo"
-                            sx={{
-                                height: "60px",
-                                objectFit: "contain",
-                                borderRadius: "5px"
-                            }}
-                        />
-                    </Box>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
+
+                    <Box sx={{ flexGrow: 1, display: 'flex', ml: { xs: 1, sm: 0 } }}>
+                        <SearchBar />
                     </Box>
 
                     <Box sx={{ mr: 2, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
