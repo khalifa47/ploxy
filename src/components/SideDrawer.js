@@ -56,9 +56,10 @@ const SideDrawer = ({ drawerWidth, handleDrawerToggle, mobileOpen }) => {
                     alt="logo"
                     sx={{
                         display: { xs: 'none', md: 'flex' },
-                        p: 3,
-                        pb: 1,
-                        width: "100px"
+                        m: 3,
+                        mb: 1,
+                        width: "100px",
+                        borderRadius: "5px"
                     }}
                 />
             </Toolbar>

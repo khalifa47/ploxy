@@ -100,7 +100,8 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                             alt="logo"
                             sx={{
                                 height: "60px",
-                                objectFit: "contain"
+                                objectFit: "contain",
+                                borderRadius: "5px"
                             }}
                         />
                     </Box>
