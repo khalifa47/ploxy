@@ -38,7 +38,6 @@ const News = ({ category }) => {
                                     source={newsItem.source.name}
                                     time={newsItem.publishedAt}
                                     headline={newsItem.title.substr(0, newsItem.title.lastIndexOf("-") - 1)}
-                                    // description={newsItem.description}
                                     target={newsItem.url}
                                 />
                             ))}

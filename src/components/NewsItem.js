@@ -46,9 +46,6 @@ const NewsItem = ({ image, source, time, headline, target }) => {
                     <Typography variant='subtitle1' sx={{ fontWeight: 600, lineHeight: 1.3, pb: 1 }}>
                         {headline}
                     </Typography>
-                    {/* <Typography variant='body2'>
-                        {description}
-                    </Typography> */}
                 </CardContent>
             </CardActionArea>
             <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
