@@ -64,81 +64,87 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
     ];
 
     return (
-        <AppBar
-            position="sticky"
-            enableColorOnDark
-            sx={{
-                width: { md: `calc(100% - ${drawerWidth}px)` },
-                position: 'fixed',
-                left: { md: `${drawerWidth}px` },
-                background: 'rgba(230, 62, 0, 1)',
-                maxHeight: '65px',
-                borderLeft: 'none',
-                boxShadow: 0
-            }}
-        >
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleDrawerToggle}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    </Box>
-
-                    <Box sx={{ flexGrow: 1, display: 'flex', ml: { xs: 1, sm: 0 } }}>
-                        <SearchBar />
-                    </Box>
-
-                    <Box sx={{ mr: 2, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                        <img src={`https://openweathermap.org/img/wn/${weatherIcon}.png`} alt="weathericon" />
-                        <Typography>{weatherCondition}</Typography>
-                    </Box>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="userprofile" src="/static/images/avatar/2.jpg" />
+        <>
+            <AppBar
+                position="sticky"
+                enableColorOnDark
+                sx={{
+                    width: { md: `calc(100% - ${drawerWidth}px)` },
+                    position: 'fixed',
+                    left: { md: `${drawerWidth}px` },
+                    background: 'rgba(230, 62, 0, 1)',
+                    maxHeight: '65px',
+                    borderLeft: 'none',
+                    boxShadow: 0
+                }}
+            >
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleDrawerToggle}
+                                color="inherit"
+                            >
+                                <MenuIcon />
                             </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                                    <ListItemIcon sx={{ color: 'rgb(230, 62, 0)' }}>
-                                        {setting.icon}
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
-                                    </ListItemText>
+                        </Box>
 
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                        <Box sx={{ flexGrow: 1, display: 'flex', ml: { xs: 1, sm: 0 } }}>
+                            <SearchBar />
+                        </Box>
+
+                        <Box sx={{ mr: 2, display: { xs: 'none', sm: 'flex' }, alignItems: 'center', justifyContent: 'flex-end' }}>
+                            <img src={`https://openweathermap.org/img/wn/${weatherIcon}.png`} alt="weathericon" />
+                            <Typography>{weatherCondition}</Typography>
+                        </Box>
+
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="userprofile" src="/static/images/avatar/2.jpg" />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                {settings.map((setting) => (
+                                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                        <ListItemIcon sx={{ color: 'rgb(230, 62, 0)' }}>
+                                            {setting.icon}
+                                        </ListItemIcon>
+                                        <ListItemText>
+                                            <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
+                                        </ListItemText>
+
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            <Box sx={{ position: 'absolute', left: '70vw', top: '12vh', display: { xs: 'flex', sm: 'none' }, alignItems: 'center', justifyContent: 'flex-end' }}>
+                <img src={`https://openweathermap.org/img/wn/${weatherIcon}.png`} alt="weathericon" />
+                <Typography>{weatherCondition}</Typography>
+            </Box>
+        </>
     );
 }
 
