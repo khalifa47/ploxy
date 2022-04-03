@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import FaceIcon from '@mui/icons-material/Face';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Container from '@mui/material/Container';
@@ -50,17 +50,17 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
 
     const settings = [
         {
-            name: 'Profile',
-            icon: <FaceIcon />
-        },
-        {
             name: 'Account',
             icon: <AccountCircleIcon />
         },
         {
+            name: 'Saved',
+            icon: <FavoriteIcon />
+        },
+        {
             name: 'Logout',
             icon: <LogoutIcon />
-        },
+        }
     ];
 
     return (
@@ -132,7 +132,6 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                                         <ListItemText>
                                             <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
                                         </ListItemText>
-
                                     </MenuItem>
                                 ))}
                             </Menu>

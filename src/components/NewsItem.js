@@ -32,7 +32,7 @@ const NewsItem = ({ image, source, time, headline, target }) => {
 
     return (
         <Card sx={{ color: "white", background: "linear-gradient(rgba(11, 11, 11, 0.1), rgba(230, 62, 0, 0.9))" }}>
-            <CardActionArea href={target} >
+            <CardActionArea href={target} target="_blank">
                 <CardMedia
                     component="img"
                     height="200"
