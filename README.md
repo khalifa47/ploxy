@@ -1,4 +1,6 @@
-[Ploxy](https://example.com/) is a web app that provides to you the latest news updates based on your interests along with a reminders/to-do section.
+[Ploxy](https://ploxy-ccf01.web.app) is a web app that provides to you the latest news updates at a glance.
+
+At the moment, there are no news items on the deployed app since the API requires a looot of payment :disappointed:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
