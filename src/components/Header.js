@@ -14,13 +14,17 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { ListItemIcon, ListItemText } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 
 import { useEffect } from "react";
 import requests from "../requests/weather/requests";
 import axios from "../requests/weather/axios";
 import { selectLatitude, selectLongitude } from "../features/location/locationSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SearchBar from './SearchBar';
+import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { auth, provider } from '../firebase';
+import { selectUserName, selectUserPhoto, setSignOut, setUserLogin } from '../features/user/userSlice';
 
 const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const lat = useSelector(selectLatitude);
@@ -28,7 +32,21 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const [weatherIcon, setWeatherIcon] = useState(null);
     const [weatherCondition, setWeatherCondition] = useState(null);
 
+    const dispatch = useDispatch();
+
+    const userName = useSelector(selectUserName);
+    const userPhoto = useSelector(selectUserPhoto);
+
     useEffect(() => {
+        onAuthStateChanged(auth, async (authUser) => {
+            if (authUser) {
+                dispatch(setUserLogin({
+                    name: authUser.displayName,
+                    email: authUser.email,
+                    photo: authUser.photoURL
+                }));
+            }
+        });
         const fetchData = async () => {
             const request = await axios.get(requests.fetchCurrent(lat, lon));
             setWeatherIcon(request.data.weather[0].icon);
@@ -37,6 +55,25 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
         }
         lat !== null && lon !== null && fetchData();
     }, [lat, lon]);
+
+    const signIn = () => {
+        signInWithPopup(auth, provider)
+            .then(result => {
+                dispatch(setUserLogin({
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    photo: result.user.photoURL
+                }));
+            });
+    };
+
+    const logOut = () => {
+        signOut(auth)
+            .then(() => {
+                dispatch(setSignOut());
+            });
+        handleCloseUserMenu();
+    };
 
     const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -51,15 +88,18 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const settings = [
         {
             name: 'Account',
-            icon: <AccountCircleIcon />
+            icon: <AccountCircleIcon />,
+            action: handleCloseUserMenu
         },
         {
             name: 'Saved',
-            icon: <FavoriteIcon />
+            icon: <FavoriteIcon />,
+            action: handleCloseUserMenu
         },
         {
             name: 'Logout',
-            icon: <LogoutIcon />
+            icon: <LogoutIcon />,
+            action: logOut
         }
     ];
 
@@ -103,38 +143,51 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                         </Box>
 
                         <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="userprofile" src="/static/images/avatar/2.jpg" />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                                        <ListItemIcon sx={{ color: 'rgb(230, 62, 0)' }}>
-                                            {setting.icon}
-                                        </ListItemIcon>
-                                        <ListItemText>
-                                            <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
-                                        </ListItemText>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
+                            {
+                                userName ?
+                                    <>
+                                        <Tooltip title="Open settings">
+                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                                <Avatar alt={userName} src={userPhoto} />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Menu
+                                            sx={{ mt: '45px' }}
+                                            id="menu-appbar"
+                                            anchorEl={anchorElUser}
+                                            anchorOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            keepMounted
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            open={Boolean(anchorElUser)}
+                                            onClose={handleCloseUserMenu}
+                                        >
+                                            {settings.map((setting) => (
+                                                <MenuItem key={setting.name} onClick={setting.action}>
+                                                    <ListItemIcon sx={{ color: 'rgb(230, 62, 0)' }}>
+                                                        {setting.icon}
+                                                    </ListItemIcon>
+                                                    <ListItemText>
+                                                        <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
+                                                    </ListItemText>
+                                                </MenuItem>
+                                            ))}
+                                        </Menu>
+                                    </>
+                                    :
+                                    <>
+                                        <Tooltip title="Sign In">
+                                            <IconButton onClick={signIn} sx={{ p: 0, color: 'white' }}>
+                                                <LoginIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </>
+                            }
                         </Box>
                     </Toolbar>
                 </Container>
