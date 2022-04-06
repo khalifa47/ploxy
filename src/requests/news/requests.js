@@ -1,4 +1,4 @@
-const API_KEY = "7044a24af7a64a16b66110f112087002";
+const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
 
 const requests = {
     fetchTopHeadlines: (country = false, category = false, sources = false, q = false, language = "en") => (

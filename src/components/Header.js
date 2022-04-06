@@ -31,6 +31,8 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const lon = useSelector(selectLongitude);
     const [weatherIcon, setWeatherIcon] = useState(null);
     const [weatherCondition, setWeatherCondition] = useState(null);
+    const [city, setCity] = useState(null);
+    const [temp, setTemp] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -51,6 +53,8 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
             const request = await axios.get(requests.fetchCurrent(lat, lon));
             setWeatherIcon(request.data.weather[0].icon);
             setWeatherCondition(request.data.weather[0].main);
+            setCity(request.data.name);
+            setTemp(request.data.main.temp)
             return request;
         }
         lat !== null && lon !== null && fetchData();
@@ -139,7 +143,10 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
 
                         <Box sx={{ mr: 2, display: { xs: 'none', sm: 'flex' }, alignItems: 'center', justifyContent: 'flex-end' }}>
                             <img src={`https://openweathermap.org/img/wn/${weatherIcon}.png`} alt="weathericon" />
-                            <Typography>{weatherCondition}</Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <Typography>{city}</Typography>
+                                <Typography variant='caption'>{weatherCondition}  · {(temp - 273.00).toFixed(2)} °C</Typography>
+                            </Box>
                         </Box>
 
                         <Box sx={{ flexGrow: 0 }}>
@@ -192,9 +199,12 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                     </Toolbar>
                 </Container>
             </AppBar>
-            <Box sx={{ position: 'absolute', left: '70vw', top: '12vh', display: { xs: 'flex', sm: 'none' }, alignItems: 'center', justifyContent: 'flex-end' }}>
+            <Box sx={{ position: 'absolute', left: '60vw', top: '12vh', display: { xs: 'flex', sm: 'none' }, alignItems: 'center', justifyContent: 'flex-end' }}>
                 <img src={`https://openweathermap.org/img/wn/${weatherIcon}.png`} alt="weathericon" />
-                <Typography>{weatherCondition}</Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography>{city}</Typography>
+                    <Typography variant='caption'>{weatherCondition} · {(temp - 273.00).toFixed(2)} °C</Typography>
+                </Box>
             </Box>
         </>
     );
