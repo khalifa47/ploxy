@@ -45,7 +45,8 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                 dispatch(setUserLogin({
                     name: authUser.displayName,
                     email: authUser.email,
-                    photo: authUser.photoURL
+                    photo: authUser.photoURL,
+                    uid: authUser.uid
                 }));
             }
         });
@@ -66,7 +67,8 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                 dispatch(setUserLogin({
                     name: result.user.displayName,
                     email: result.user.email,
-                    photo: result.user.photoURL
+                    photo: result.user.photoURL,
+                    uid: result.user.uid
                 }));
             });
     };

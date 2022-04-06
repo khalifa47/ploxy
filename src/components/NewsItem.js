@@ -4,9 +4,25 @@ import { useEffect, useState } from 'react';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import { addDoc, collection } from 'firebase/firestore';
+import db from '../firebase';
+import { useSelector } from 'react-redux';
+import { selectUserId } from '../features/user/userSlice';
 
 const NewsItem = ({ image, source, time, headline, target }) => {
     const [shownTime, setShownTime] = useState("");
+    const uid = useSelector(selectUserId);
+
+    const handleSave = async () => {
+        uid === null ? alert("You must be logged in first") :
+            addDoc(collection(db, `users/${uid}/savednews`), {
+                image: image,
+                source: source,
+                time: time,
+                headline: headline,
+                target: target
+            }).then(() => alert("success"));
+    };
 
     useEffect(() => {
         const showTimeAgo = () => {
@@ -49,7 +65,7 @@ const NewsItem = ({ image, source, time, headline, target }) => {
                 </CardContent>
             </CardActionArea>
             <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
-                <IconButton size="small" sx={{ color: "white" }}>
+                <IconButton onClick={handleSave} size="small" sx={{ color: "white" }}>
                     <FavoriteIcon />
                 </IconButton>
                 <IconButton size="small" sx={{ color: "white" }}>
