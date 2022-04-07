@@ -64,6 +64,7 @@ const SavedNews = ({ open, handleClose }) => {
                         time={newsItem.data.time}
                         headline={newsItem.data.headline}
                         target={newsItem.data.target}
+                        del={newsItem.id}
                     />
                 ))}
             </Masonry>

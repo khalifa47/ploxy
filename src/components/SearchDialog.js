@@ -45,6 +45,7 @@ const SearchDialog = ({ open, handleClose, query, news }) => {
                         time={newsItem.publishedAt}
                         headline={newsItem.title}
                         target={newsItem.url}
+                        del={false}
                     />
                 ))}
             </Masonry>

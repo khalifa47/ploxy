@@ -39,6 +39,7 @@ const News = ({ category }) => {
                                     time={newsItem.publishedAt}
                                     headline={newsItem.title.substr(0, newsItem.title.lastIndexOf("-") - 1)}
                                     target={newsItem.url}
+                                    del={false}
                                 />
                             ))}
                         </Masonry>

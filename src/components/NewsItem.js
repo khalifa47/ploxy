@@ -1,27 +1,47 @@
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, IconButton, Tooltip, Typography } from '@mui/material';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import { addDoc, collection } from 'firebase/firestore';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
 import db from '../firebase';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../features/user/userSlice';
 
-const NewsItem = ({ image, source, time, headline, target }) => {
+const NewsItem = ({ image, source, time, headline, target, del }) => {
     const [shownTime, setShownTime] = useState("");
     const uid = useSelector(selectUserId);
+    const [open, setOpen] = useState(false);
+
+    const handleTooltipClose = () => {
+        setOpen(false);
+    };
+
+    const handleTooltipOpen = () => {
+        setOpen(true);
+    };
 
     const handleSave = async () => {
         uid === null ? alert("You must be logged in first") :
-            addDoc(collection(db, `users/${uid}/savednews`), {
+            await addDoc(collection(db, `users/${uid}/savednews`), {
                 image: image,
                 source: source,
                 time: time,
                 headline: headline,
                 target: target
-            }).then(() => alert("success"));
+            }).then(() => alert("Saved"));
+    };
+
+    const handleShare = () => {
+        navigator.clipboard.writeText(target);
+        handleTooltipOpen();
+    };
+
+    const handleDelete = async (del) => {
+        deleteDoc(doc(db, `users/${uid}/savednews`, del)).then(() => alert("Delete Success"))
     };
 
     useEffect(() => {
@@ -65,12 +85,29 @@ const NewsItem = ({ image, source, time, headline, target }) => {
                 </CardContent>
             </CardActionArea>
             <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
-                <IconButton onClick={handleSave} size="small" sx={{ color: "white" }}>
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton size="small" sx={{ color: "white" }}>
-                    <ShareIcon />
-                </IconButton>
+                {!del && <>
+                    <IconButton onClick={handleSave} size="small" sx={{ color: "white" }}>
+                        <FavoriteIcon />
+                    </IconButton>
+                </>}
+
+                <Tooltip
+                    onClose={handleTooltipClose}
+                    open={open}
+                    disableFocusListener
+                    disableTouchListener
+                    title="Copied to Clipboard"
+                >
+                    <IconButton onClick={handleShare} size="small" sx={{ color: "white" }}>
+                        <ShareIcon />
+                    </IconButton>
+                </Tooltip>
+
+                {del && <>
+                    <IconButton onClick={() => handleDelete(del)} size="small" sx={{ color: "white" }}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>}
             </CardActions>
         </Card>
     );
