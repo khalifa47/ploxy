@@ -25,6 +25,7 @@ import SearchBar from './SearchBar';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { auth, provider } from '../firebase';
 import { selectUserName, selectUserPhoto, setSignOut, setUserLogin } from '../features/user/userSlice';
+import SavedNews from './SavedNews';
 
 const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const lat = useSelector(selectLatitude);
@@ -33,6 +34,7 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
     const [weatherCondition, setWeatherCondition] = useState(null);
     const [city, setCity] = useState(null);
     const [temp, setTemp] = useState(null);
+    const [savedOpen, setSavedOpen] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -91,6 +93,15 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
         setAnchorElUser(null);
     };
 
+    const handleShowSaved = () => {
+        handleCloseUserMenu();
+        setSavedOpen(true);
+    }
+
+    const handleSavedClose = () => {
+        setSavedOpen(false);
+    }
+
     const settings = [
         {
             name: 'Account',
@@ -100,7 +111,7 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
         {
             name: 'Saved',
             icon: <FavoriteIcon />,
-            action: handleCloseUserMenu
+            action: handleShowSaved
         },
         {
             name: 'Logout',
@@ -208,6 +219,7 @@ const Header = ({ drawerWidth, handleDrawerToggle }) => {
                     <Typography variant='caption'>{weatherCondition} · {(temp - 273.00).toFixed(2)} °C</Typography>
                 </Box>
             </Box>
+            <SavedNews open={savedOpen} handleClose={handleSavedClose} />
         </>
     );
 }
